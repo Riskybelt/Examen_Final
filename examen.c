@@ -195,3 +195,23 @@ int sistema_cancelar(Sistema *s, int ID) {
     return -1;
 }
 
+//Imprime la informacion de un paciente 
+void sistema_buscar(const Sistema *s, int ID) {
+    if (s == NULL) return;
+
+    for (int p = 0; p < PRIORIDADES; p++) {
+        NodePaciente *cur = s->colas[p].front;
+        while (cur != NULL) {
+            if (cur->ID ==ID) {
+                printf("Paciente encontrado:\n");
+                printf(" ID: %d\n", cur->ID);
+                printf(" Nombre: %s\n", cur->nombre);
+                printf(" Prioridad: %d\n", cur->prioridad);
+                return;
+            }
+            cur = cur->next;
+        }
+    }
+
+    printf("Paciente con ID: %d no existe en el sistema.\n", ID);
+}
