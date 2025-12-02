@@ -215,3 +215,39 @@ void sistema_buscar(const Sistema *s, int ID) {
 
     printf("Paciente con ID: %d no existe en el sistema.\n", ID);
 }
+
+//Imprime el estado completo del sistema (sala de emergecias)
+void sistema_imprimir(const Sistema *s) {
+    if (s == NULL) return;
+
+    printf("Estado de la sala: \n");
+
+    for (int p = 0; p < PRIORIDADES; p++) {
+        printf("Prioridad %d:\n", p);
+
+        if (queue_is_empty(&s->colas[p])) {
+            printf("  (sin pacientes)\n");
+            continue;
+        }
+
+        NodePaciente *cur = s->colas[p].front;
+        while (cur != NULL) {
+            printf("  ID: %d, Nombre: %s\n", cur->ID, cur->nombre);
+            cur = cur->next;
+        }
+    }
+
+}
+
+/*Imprime la cantidad de pacientes en cada prioridad y de paso 
+cuantos an sido atendidos (aprobechando que tenemos el conteo global)*/
+void sistema_estadisticas(const Sistema *s) {
+    if (s == NULL) return;
+
+    printf("Estadísticas del sistema: \n");
+    for (int p = 0; p < PRIORIDADES; p++) {
+        printf("Prioridad %d: %zu pacientes\n", p, queue_size(&s->colas[p]));
+    }
+    printf("Pacientes atendidos: %zu\n", s->atendidos);
+}
+
