@@ -42,7 +42,7 @@ size_t queue_size(const Queue *q);
 
 /* Encola un paciente al final de la cola.
    Retorna 0 si todo bien, -1 si error de memoria. */
-int queue_enqueue(Queue *q, int id, const char *nombre, int prioridad);
+int queue_enqueue(Queue *q, int ID, const char *nombre, int prioridad);
 
 /* Desencola el paciente del frente.
    Guarda los datos en outId, outNombre y outPrioridad.
@@ -60,19 +60,19 @@ void queue_clear(Queue *q);
 void sistema_init(Sistema *s);
 
 //Retorna true si existe un paciente con el ID dado
-bool sistema_existe_id(const Sistema *s, int id);
+bool sistema_existe_id(const Sistema *s, int ID);
 
 //Insrta a un paciente en la cola de su prioridad
-int sistema_insertar(Sistema *s, int id, const char *nombre, int prioridad);
+int sistema_insertar(Sistema *s, int ID, const char *nombre, int prioridad);
 
 //Atiende al siguiente paciente segun su prioridad
 int sistema_atender(Sistema *s);
 
 // Cancela a un paciente por su ID 
-int sistema_cancelar(Sistema *s, int id);
+int sistema_cancelar(Sistema *s, int ID);
 
 // Busca a un paciente por su ID e imprime su información
-void sistema_buscar(const Sistema *s, int id);
+void sistema_buscar(const Sistema *s, int ID);
 
 //Muestra todas las colas del sistema 
 void sistema_imprimir(const Sistema *s);
