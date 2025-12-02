@@ -72,5 +72,17 @@ int queue_dequeue(Queue *q, int *outId, char *outNombre, int *outPrioridad) {
     return 0;
 }
 
+//Se usara la funcion "queue_clear" de la profesora para adaptarlo a nuestro programa
+void queue_clear(Queue *q) {
+    NodePaciente *current = q->front;
+    while (current != NULL) {
+        NodePaciente *next = current->next;
+        free(current);
+        current = next;
+    }
 
+    q->front = NULL;
+    q->rear  = NULL;
+    q->size  = 0;
+}
 
