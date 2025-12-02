@@ -21,4 +21,32 @@ size_t queue_size(const Queue *q) {
     return q->size;
 }
 
+//Se usara la funcion "queue_enqueue" de la profesora para adaptarlo a nuestro programa
+int queue_enqueue(Queue *q, int ID, const char *nombre, int prioridad) {
+    NodePaciente *newNode = (NodePaciente *)malloc(sizeof(NodePaciente));
+    if (newNode == NULL) {
+        fprintf(stderr, "Error: no se pudo asignar memoria en queue_enqueue.\n");
+        return -1;
+    }
+
+    newNode->ID = ID;
+    newNode->prioridad = prioridad;
+strncpy(newNode->nombre, nombre, NOMBRE - 1);
+    newNode->nombre[NOMBRE - 1] = '\0';
+    newNode->next = NULL;
+
+    if (queue_is_empty(q)) {
+        q->front = newNode;
+        q->rear  = newNode;
+    } else {
+        q->rear->next = newNode;
+        q->rear = newNode;
+    }
+
+    q->size++;
+    return 0;
+}
+
+
+
 
