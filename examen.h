@@ -52,4 +52,40 @@ int queue_dequeue(Queue *q, int *outId, char *outNombre, int *outPrioridad);
 /* Elimina todos los elementos de la cola y libera la memoria */
 void queue_clear(Queue *q);
 
+
+
+//Funciones propias para que funcione el sistema
+
+//Empieza el sistema con colas vacías y 0 atendidos
+void sistema_init(Sistema *s);
+
+//Retorna true si existe un paciente con el ID dado
+bool sistema_existe_id(const Sistema *s, int id);
+
+//Insrta a un paciente en la cola de su prioridad
+int sistema_insertar(Sistema *s, int id, const char *nombre, int prioridad);
+
+//Atiende al siguiente paciente segun su prioridad
+int sistema_atender(Sistema *s);
+
+// Cancela a un paciente por su ID 
+int sistema_cancelar(Sistema *s, int id);
+
+// Busca a un paciente por su ID e imprime su información
+void sistema_buscar(const Sistema *s, int id);
+
+//Muestra todas las colas del sistema 
+void sistema_imprimir(const Sistema *s);
+
+//Muestra estadísticas
+void sistema_estadisticas(const Sistema *s);
+
+//Guarda a todos los pacientes en un txt
+int sistema_guardar(const Sistema *s, const char *archivo);
+
+// Libera la memoria de todas las colas
+void sistema_liberar(Sistema *s);
+
+
+
 #endif
