@@ -251,3 +251,33 @@ void sistema_estadisticas(const Sistema *s) {
     printf("Pacientes atendidos: %zu\n", s->atendidos);
 }
 
+//Guarda la informacion de los pasientes en espera en un txt especificado en el main
+int sistema_guardar(const Sistema *s, const char *archivo) {
+    if (s == NULL || archivo == NULL) return -1;
+
+    FILE *f = fopen(archivo, "w");
+    if (f== NULL) {
+        fprintf(stderr, "Error: no se pudo abrir el archivo %s.\n", archivo);
+        return -1;
+    }
+
+    for (int p = 0; p < PRIORIDADES; p++) {
+        NodePaciente *cur = s->colas[p].front;
+        while (cur != NULL) {
+            fprintf(f, "%d;%d;%s\n", cur->ID, cur->prioridad, cur->nombre);
+            cur = cur->next;
+        }
+    }
+
+    fclose(f);
+    return 0;
+}
+
+//Finalmente liberamos memoria
+void sistema_liberar(Sistema *s) {
+    if (s == NULL) return;
+
+    for (int p = 0; p < PRIORIDADES; p++) {
+        queue_clear(&s->colas[p]);
+    }
+}
