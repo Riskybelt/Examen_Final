@@ -128,3 +128,32 @@ int sistema_insertar(Sistema *s, int ID, const char *nombre, int prioridad) {
 
     return queue_enqueue(&s->colas[prioridad], ID, nombre, prioridad);
 }
+
+/*Atiende al paciente en la cola de mayor prioridad, muestra su info 
+y lleva un conteo de atendidos*/
+int sistema_atender(Sistema *s) {
+    if (s == NULL) return -1;
+
+    for (int p= 0; p < PRIORIDADES; p++) {
+        if (!queue_is_empty(&s->colas[p])) {
+
+            int ID, prioridad;
+            char nombre[NOMBRE];
+
+            if (queue_dequeue(&s->colas[p], &ID, nombre, &prioridad) == 0) {
+                printf("Paciente atendido:\n");
+                printf("  ID: %d\n", ID);
+                printf("  Nombre: %s\n", nombre);
+                printf("  Prioridad: %d\n", prioridad);
+
+                s->atendidos++;
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+    }
+
+    printf("No hay pacientes en espera.\n");
+    return -1;
+}
