@@ -86,3 +86,28 @@ void queue_clear(Queue *q) {
     q->size  = 0;
 }
 
+//Inicia una cola por cada prioridad
+void sistema_init(Sistema *s) {
+    if (s == NULL) return;
+
+    for (int i = 0; i < PRIORIDADES; i++) {
+        queue_init(&s->colas[i]);
+    }
+    s->atendidos = 0;
+}
+
+//Recorre todas las colas en busca de un ID para verificar si existe
+bool sistema_existe_id(const Sistema *s, int ID) {
+    if (s == NULL) return false;
+
+    for (int p = 0; p < PRIORIDADES; p++) {
+        NodePaciente *cur = s->colas[p].front;
+        while (cur != NULL) {
+            if (cur->ID == ID) {
+                return true;
+            }
+            cur = cur->next;
+        }
+    }
+    return false;
+}
