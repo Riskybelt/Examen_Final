@@ -111,3 +111,20 @@ bool sistema_existe_id(const Sistema *s, int ID) {
     }
     return false;
 }
+
+//Añade a un paciente a su respectiva cola segun su prioridad si este es valido y no esta. 
+int sistema_insertar(Sistema *s, int ID, const char *nombre, int prioridad) {
+    if (s == NULL) return -1;
+
+    if (prioridad < 0 || prioridad >= PRIORIDADES) {
+        fprintf(stderr, "Error: prioridad inválida (%d).\n", prioridad);
+        return -1;
+    }
+
+    if (sistema_existe_id(s, ID)) {
+        fprintf(stderr, "Error: el ID %d ya existe en el sistema.\n", ID);
+        return -1;
+    }
+
+    return queue_enqueue(&s->colas[prioridad], ID, nombre, prioridad);
+}
