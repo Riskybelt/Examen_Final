@@ -157,3 +157,41 @@ int sistema_atender(Sistema *s) {
     printf("No hay pacientes en espera.\n");
     return -1;
 }
+
+//Saca a un paciente de la cola y no lo atiende
+int sistema_cancelar(Sistema *s, int ID) {
+    if (s == NULL) return -1;
+
+    for (int p = 0; p < PRIORIDADES; p++) {
+        Queue *q = &s->colas[p];
+        NodePaciente *prev = NULL;
+        NodePaciente *cur  = q->front;
+
+        while (cur != NULL) {
+            if (cur->ID == ID) {
+                if (prev == NULL) {
+                    q->front = cur->next;
+                    if (q->front == NULL) {
+                        q->rear = NULL;
+                    }
+                } else {
+                    prev->next = cur->next;
+                    if (cur== q->rear) {
+                        q->rear = prev;
+                    }
+                }
+
+                free(cur);
+                q->size--;
+
+                printf("Paciente con ID: %d eliminado del sistema.\n", ID);
+                return 0;
+            }
+            prev = cur;
+            cur= cur->next;
+        }
+    }
+    printf("Paciente con ID: %d no se encuentra en el sistema.\n", ID);
+    return -1;
+}
+
