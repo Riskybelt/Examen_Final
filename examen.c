@@ -48,5 +48,29 @@ strncpy(newNode->nombre, nombre, NOMBRE - 1);
 }
 
 
+//Se usara la funcion "queue_dequeue" de la profesora para adaptarlo a nuestro programa
+int queue_dequeue(Queue *q, int *outId, char *outNombre, int *outPrioridad) {
+    if (queue_is_empty(q)) {
+        fprintf(stderr, "Error: no se puede hacer dequeue en una cola vacía.\n");
+        return -1;
+    }
+
+    NodePaciente *temp = q->front;
+
+    if (outId != NULL)        *outId = temp->ID;
+    if (outNombre != NULL)    strncpy(outNombre, temp->nombre, NOMBRE);
+    if (outPrioridad != NULL) *outPrioridad = temp->prioridad;
+
+    q->front = q->front->next;
+
+    if (q->front == NULL) {
+        q->rear = NULL;
+    }
+
+    free(temp);
+    q->size--;
+    return 0;
+}
+
 
 
